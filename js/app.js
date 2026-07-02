@@ -258,10 +258,14 @@ class TodoApp {
     this.cacheElements();
     this.bindEvents();
     this.render();
+    this.fixScrollHeight();
   }
 
   cacheElements() {
     this.el = {
+      app: document.querySelector(".app"),
+      appMain: document.querySelector(".app__main"),
+      taskArea: document.querySelector(".task-area"),
       addForm: document.getElementById("addForm"),
       taskTitle: document.getElementById("taskTitle"),
       taskDescription: document.getElementById("taskDescription"),
@@ -334,6 +338,11 @@ class TodoApp {
       if (e.key === "Escape") {
         this.closeAllModals();
       }
+    });
+
+    window.addEventListener("resize", () => this.fixScrollHeight());
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => this.fixScrollHeight(), 300);
     });
   }
 
@@ -464,9 +473,27 @@ class TodoApp {
     }, 2500);
   }
 
+  fixScrollHeight() {
+    const area = this.el.taskArea;
+    if (!area) return;
+    const header = document.querySelector(".header");
+    const stats = document.querySelector(".stats");
+    const form = document.querySelector(".add-form");
+    const toolbar = document.querySelector(".toolbar");
+    const footer = document.querySelector(".footer");
+    const h = window.innerHeight
+      - (header?.offsetHeight || 0)
+      - (stats?.offsetHeight || 0)
+      - (form?.offsetHeight || 0)
+      - (toolbar?.offsetHeight || 0)
+      - (footer?.offsetHeight || 0) - 4;
+    if (h > 100) area.style.maxHeight = h + "px";
+  }
+
   render() {
     this.renderStats();
     this.renderList();
+    this.fixScrollHeight();
   }
 
   renderStats() {

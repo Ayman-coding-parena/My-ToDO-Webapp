@@ -137,15 +137,12 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  min-height: -webkit-fill-available;
   overflow: hidden;
-  position: relative;
 }
 
 .task-area {
   flex: 1;
   min-height: 0;
-  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -153,7 +150,8 @@ body {
   touch-action: pan-y;
   scrollbar-color: var(--border) transparent;
   scrollbar-width: thin;
-  position: relative;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .task-area::-webkit-scrollbar {
